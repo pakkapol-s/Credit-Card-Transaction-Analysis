@@ -192,3 +192,37 @@ HAVING
     )
 ORDER BY
     fraud_transactions DESC;
+
+-- 8. Identify "high-value" vs. "low-value" customers based on their average transaction
+
+-- Identifying High-Value Customers
+
+SELECT
+  customer_id,
+  ROUND(CAST(AVG(amt)AS NUMERIC), 2) AS avg_customer_amt
+FROM
+  transactions
+GROUP BY
+  customer_id
+HAVING
+  AVG(amt) > (SELECT AVG(amt) FROM transactions)
+ORDER BY
+  avg_customer_amt DESC;
+
+-- Identifying Low-Value Customers
+
+SELECT
+  customer_id,
+  ROUND(CAST(AVG(amt)AS NUMERIC), 2) AS avg_customer_amt
+FROM
+  transactions
+GROUP BY
+  customer_id
+HAVING
+  AVG(amt) < (SELECT AVG(amt) FROM transactions)
+ORDER BY
+  avg_customer_amt ASC;
+
+
+
+
