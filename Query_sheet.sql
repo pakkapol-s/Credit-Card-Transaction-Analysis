@@ -445,3 +445,71 @@ JOIN
 
 "num_customers_with_valid_transactions"
 "4991"
+
+
+-- 14. List the top 3 terminals with the highest fraudulent transaction counts
+
+SELECT terminal_id,
+  COUNT(transaction_id) AS num_of_fraud_transactions
+FROM transactions
+WHERE fraud = 1
+GROUP BY terminal_id
+ORDER BY num_of_fraud_transactions DESC
+LIMIT 3
+
+"terminal_id","num_of_fraud_transactions"
+"T001008","1432"
+"T001031","1208"
+"T001071","1056"
+
+
+Fraud Analytics & Risk Scoring
+
+-- 15. For each terminal, is the fraud rate in the last 30 days significantly higher than its prior 60-day baseline?
+
+WITH RecentFraud AS (
+    SELECT
+        terminal_id,
+        COUNT(transaction_id) AS total_transactions,
+        SUM(CASE WHEN fraud = 1 THEN 1 ELSE 0 END) AS fraudulent_transactions
+    FROM
+        transactions
+    WHERE
+        post_ts >= CURRENT_DATE - INTERVAL '30 days'
+    GROUP BY
+        terminal_id
+),
+PriorFraud AS (
+    SELECT
+        terminal_id,
+        COUNT(transaction_id) AS total_transactions,
+        SUM(CASE WHEN fraud = 1 THEN 1 ELSE 0 END) AS fraudulent_transactions
+    FROM
+        transactions
+    WHERE
+        post_ts >= CURRENT_DATE - INTERVAL '90 days'
+        AND post_ts < CURRENT_DATE - INTERVAL '30 days'
+    GROUP BY
+        terminal_id
+)
+SELECT
+    RF.terminal_id,
+    ROUND((RF.fraudulent_transactions::FLOAT / RF.total_transactions::FLOAT * 100)::NUMERIC, 2) AS recent_fraud_rate_percentage,
+    ROUND((PF.fraudulent_transactions::FLOAT / PF.total_transactions::FLOAT * 100)::NUMERIC, 2) AS prior_fraud_rate_percentage,
+    ROUND(
+        ( (RF.fraudulent_transactions::FLOAT / RF.total_transactions::FLOAT - PF.fraudulent_transactions::FLOAT / PF.total_transactions::FLOAT) 
+        / (PF.fraudulent_transactions::FLOAT / PF.total_transactions::FLOAT) * 100
+        )::NUMERIC, 2
+    ) AS percentage_change
+FROM
+    RecentFraud AS RF
+JOIN
+    PriorFraud AS PF ON RF.terminal_id = PF.terminal_id
+WHERE
+    RF.total_transactions >= 10
+    AND PF.total_transactions >= 10
+    AND (RF.fraudulent_transactions::FLOAT / RF.total_transactions::FLOAT) > (PF.fraudulent_transactions::FLOAT / PF.total_transactions::FLOAT)
+ORDER BY
+    percentage_change DESC
+LIMIT 10;
+
