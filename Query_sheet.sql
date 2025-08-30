@@ -49,13 +49,68 @@ WITH customer_transaction_count AS (
 )
 SELECT
     customer_id,
-    num_transactions
+    num_transactions,
+    CAST (AVG(num_transactions) OVER () AS DECIMAL(5, 2)) AS AVG_Num_of_Transactions
 FROM
     customer_transaction_count
 WHERE
     num_transactions > (SELECT AVG(num_transactions) FROM customer_transaction_count)
 ORDER BY
-    num_transactions DESC;
+    num_transactions DESC
+LIMIT 50 ;
+
+-- "customer_id","num_transactions","avg_num_of_transactions"
+-- "C00001460","791","537.72"
+-- "C00003273","789","537.72"
+-- "C00002336","780","537.72"
+-- "C00001313","775","537.72"
+-- "C00004291","772","537.72"
+-- "C00002490","771","537.72"
+-- "C00003292","770","537.72"
+-- "C00004485","768","537.72"
+-- "C00003877","765","537.72"
+-- "C00004868","761","537.72"
+-- "C00004459","758","537.72"
+-- "C00005122","756","537.72"
+-- "C00001818","753","537.72"
+-- "C00001673","753","537.72"
+-- "C00002186","752","537.72"
+-- "C00003765","750","537.72"
+-- "C00001720","744","537.72"
+-- "C00004012","744","537.72"
+-- "C00001482","743","537.72"
+-- "C00002902","743","537.72"
+-- "C00001008","743","537.72"
+-- "C00004222","738","537.72"
+-- "C00005918","736","537.72"
+-- "C00004692","736","537.72"
+-- "C00003460","736","537.72"
+-- "C00003157","735","537.72"
+-- "C00004440","735","537.72"
+-- "C00003557","734","537.72"
+-- "C00002931","733","537.72"
+-- "C00002359","733","537.72"
+-- "C00005295","733","537.72"
+-- "C00005118","731","537.72"
+-- "C00001931","730","537.72"
+-- "C00001197","730","537.72"
+-- "C00005833","730","537.72"
+-- "C00004765","730","537.72"
+-- "C00005013","729","537.72"
+-- "C00001586","729","537.72"
+-- "C00001722","728","537.72"
+-- "C00004937","727","537.72"
+-- "C00004944","726","537.72"
+-- "C00003459","724","537.72"
+-- "C00003306","724","537.72"
+-- "C00003068","721","537.72"
+-- "C00003655","721","537.72"
+-- "C00005479","720","537.72"
+-- "C00002542","720","537.72"
+-- "C00004330","719","537.72"
+-- "C00001677","719","537.72"
+-- "C00004203","719","537.72"
+
 
 -- 4. Do fraudulent transactions occur more frequently during specific hours of the day or days of the week?
 
@@ -131,7 +186,6 @@ ORDER BY
 "Monday","7324"
 
 -- Fraud-Specific Analysis
-
 -- 5. Which terminals have the highest percentage of fraudulent transactions?
 
 SELECT
@@ -191,7 +245,61 @@ HAVING
         SELECT avg_num_terminals FROM AvgTerminals
     )
 ORDER BY
-    fraud_transactions DESC;
+    fraud_transactions DESC
+LIMIT 50;
+
+-- "customer_id","fraud_transactions","nb_terminals"
+-- "C00004868","57",13
+-- "C00002186","55",11
+-- "C00002069","48",8
+-- "C00001313","47",9
+-- "C00003306","46",12
+-- "C00002462","44",7
+-- "C00005177","44",11
+-- "C00004870","43",7
+-- "C00002112","42",7
+-- "C00001944","42",15
+-- "C00003411","41",7
+-- "C00003466","40",9
+-- "C00003605","40",7
+-- "C00001023","39",8
+-- "C00005909","39",8
+-- "C00003598","39",11
+-- "C00001447","39",9
+-- "C00003750","38",7
+-- "C00004164","38",7
+-- "C00002613","38",7
+-- "C00005245","37",8
+-- "C00003765","37",7
+-- "C00004925","37",7
+-- "C00002982","37",7
+-- "C00001439","37",7
+-- "C00004252","36",9
+-- "C00005195","36",8
+-- "C00004222","36",10
+-- "C00002122","35",7
+-- "C00001824","35",12
+-- "C00003399","35",7
+-- "C00005781","35",7
+-- "C00004937","35",9
+-- "C00005151","35",9
+-- "C00001308","34",10
+-- "C00001027","34",9
+-- "C00001868","34",8
+-- "C00002958","34",11
+-- "C00003872","34",7
+-- "C00001482","34",9
+-- "C00003687","34",7
+-- "C00002026","34",9
+-- "C00003748","34",9
+-- "C00003983","34",7
+-- "C00001386","34",7
+-- "C00002142","34",7
+-- "C00002904","34",9
+-- "C00002428","33",9
+-- "C00003353","33",11
+-- "C00003335","33",9
+
 
 -- 7. Identify "high-value" vs. "low-value" customers based on their average transaction
 
@@ -207,7 +315,61 @@ GROUP BY
 HAVING
   AVG(amt) > (SELECT AVG(amt) FROM transactions)
 ORDER BY
-  avg_customer_amt DESC;
+  avg_customer_amt DESC
+LIMIT 50 ;
+
+-- "customer_id","avg_customer_amt"
+-- "C00003639","121.68"
+-- "C00005934","121.22"
+-- "C00004057","117.46"
+-- "C00005459","116.50"
+-- "C00005272","115.52"
+-- "C00002476","114.15"
+-- "C00002431","112.61"
+-- "C00002565","112.41"
+-- "C00001813","111.38"
+-- "C00005262","111.18"
+-- "C00004762","110.17"
+-- "C00005959","109.89"
+-- "C00002485","109.70"
+-- "C00002061","108.74"
+-- "C00004325","108.71"
+-- "C00002800","108.58"
+-- "C00005298","108.42"
+-- "C00003593","108.29"
+-- "C00002550","107.93"
+-- "C00001957","107.91"
+-- "C00005084","107.90"
+-- "C00004436","107.83"
+-- "C00003981","107.64"
+-- "C00002313","107.38"
+-- "C00002533","107.27"
+-- "C00001438","107.05"
+-- "C00004381","106.88"
+-- "C00005587","106.84"
+-- "C00003300","106.65"
+-- "C00002671","106.52"
+-- "C00004224","106.48"
+-- "C00004472","106.43"
+-- "C00001087","106.37"
+-- "C00002079","106.32"
+-- "C00003733","106.28"
+-- "C00003700","106.00"
+-- "C00003238","105.98"
+-- "C00002617","105.83"
+-- "C00002241","105.82"
+-- "C00002771","105.73"
+-- "C00004474","105.70"
+-- "C00004800","105.62"
+-- "C00004581","105.60"
+-- "C00001825","105.58"
+-- "C00004839","105.44"
+-- "C00005320","105.42"
+-- "C00005567","105.35"
+-- "C00001712","105.27"
+-- "C00001186","105.18"
+-- "C00004988","104.89"
+
 
 -- Identifying Low-Value Customers
 
@@ -383,7 +545,61 @@ SELECT customer_id,
 FROM transactions
 WHERE fraud = 1
 GROUP BY customer_id
-ORDER BY count_bin DESC ;
+ORDER BY count_bin DESC 
+LIMIT 50;
+
+-- "customer_id","count_bin"
+-- "C00004868","57"
+-- "C00002186","55"
+-- "C00002154","51"
+-- "C00005809","50"
+-- "C00002917","49"
+-- "C00002069","48"
+-- "C00001313","47"
+-- "C00001995","47"
+-- "C00001590","46"
+-- "C00003306","46"
+-- "C00003243","45"
+-- "C00002462","44"
+-- "C00002075","44"
+-- "C00005177","44"
+-- "C00001525","44"
+-- "C00005325","43"
+-- "C00005874","43"
+-- "C00004767","43"
+-- "C00001123","43"
+-- "C00004870","43"
+-- "C00002112","42"
+-- "C00003877","42"
+-- "C00002383","42"
+-- "C00005563","42"
+-- "C00001944","42"
+-- "C00002505","41"
+-- "C00001373","41"
+-- "C00002714","41"
+-- "C00003411","41"
+-- "C00003645","41"
+-- "C00001063","41"
+-- "C00004264","40"
+-- "C00001514","40"
+-- "C00001798","40"
+-- "C00001188","40"
+-- "C00003605","40"
+-- "C00002382","40"
+-- "C00001715","40"
+-- "C00003466","40"
+-- "C00001722","39"
+-- "C00001447","39"
+-- "C00003598","39"
+-- "C00004903","39"
+-- "C00002336","39"
+-- "C00002329","39"
+-- "C00005909","39"
+-- "C00002195","39"
+-- "C00002929","39"
+-- "C00003459","39"
+-- "C00001023","39"
+
 
 
 -- 12. For a single customer with both fraudulent and non-fraudulent transactions, 
@@ -465,51 +681,126 @@ LIMIT 3
 
 Fraud Analytics & Risk Scoring
 
--- 15. For each terminal, is the fraud rate in the last 30 days significantly higher than its prior 60-day baseline?
+-- 15. Among customers with fraud, do we see a pre/post behavior shift (avg amount, entry_mode mix) within ±14 days of first fraud?
+-- Event study: windowed aggregates around first-fraud CTE.
 
-WITH RecentFraud AS (
-    SELECT
-        terminal_id,
-        COUNT(transaction_id) AS total_transactions,
-        SUM(CASE WHEN fraud = 1 THEN 1 ELSE 0 END) AS fraudulent_transactions
-    FROM
-        transactions
-    WHERE
-        post_ts >= CURRENT_DATE - INTERVAL '30 days'
-    GROUP BY
-        terminal_id
-),
-PriorFraud AS (
-    SELECT
-        terminal_id,
-        COUNT(transaction_id) AS total_transactions,
-        SUM(CASE WHEN fraud = 1 THEN 1 ELSE 0 END) AS fraudulent_transactions
-    FROM
-        transactions
-    WHERE
-        post_ts >= CURRENT_DATE - INTERVAL '90 days'
-        AND post_ts < CURRENT_DATE - INTERVAL '30 days'
-    GROUP BY
-        terminal_id
+WITH FirstFraudTimestamp AS (
+  -- Step 1: Find the exact timestamp of the first fraudulent transaction for each customer.
+  -- This is our "event" anchor point.
+  SELECT
+    customer_id,
+    MIN(post_ts) AS first_fraud_ts
+  FROM
+    transactions
+  WHERE
+    fraud = 1
+  GROUP BY
+    customer_id
 )
+-- SELECT * FROM FirstFraudTimestamp ;
+,
+TransactionsInWindow AS (
+  -- Step 2: Join back to the main transactions table and filter for the +/- 14 day window
+  SELECT
+    t.customer_id,
+    t.post_ts,
+    t.amt,
+    t.entry_mode,
+    t.fraud,
+    ff.first_fraud_ts
+  FROM
+    transactions AS t
+  INNER JOIN
+    FirstFraudTimestamp AS ff
+    ON t.customer_id = ff.customer_id
+  WHERE
+    -- Use date arithmetic to select transactions within the 14-day window around the first fraud.
+    t.post_ts >= ff.first_fraud_ts - INTERVAL '14 DAY'
+    AND t.post_ts <= ff.first_fraud_ts + INTERVAL '14 DAY'
+)
+-- SELECT * FROM TransactionsInWindow;
+-- Step 3: Use conditional aggregation to calculate the average amount before and after the fraud event.
 SELECT
-    RF.terminal_id,
-    ROUND((RF.fraudulent_transactions::FLOAT / RF.total_transactions::FLOAT * 100)::NUMERIC, 2) AS recent_fraud_rate_percentage,
-    ROUND((PF.fraudulent_transactions::FLOAT / PF.total_transactions::FLOAT * 100)::NUMERIC, 2) AS prior_fraud_rate_percentage,
-    ROUND(
-        ( (RF.fraudulent_transactions::FLOAT / RF.total_transactions::FLOAT - PF.fraudulent_transactions::FLOAT / PF.total_transactions::FLOAT) 
-        / (PF.fraudulent_transactions::FLOAT / PF.total_transactions::FLOAT) * 100
-        )::NUMERIC, 2
-    ) AS percentage_change
+  customer_id,
+  -- Calculate the average amount for transactions before the fraud
+  AVG(CASE WHEN post_ts < first_fraud_ts THEN amt ELSE NULL END) AS avg_amt_pre_fraud,
+  -- Calculate the average amount for transactions after the fraud
+  AVG(CASE WHEN post_ts >= first_fraud_ts THEN amt ELSE NULL END) AS avg_amt_post_fraud
 FROM
-    RecentFraud AS RF
-JOIN
-    PriorFraud AS PF ON RF.terminal_id = PF.terminal_id
-WHERE
-    RF.total_transactions >= 10
-    AND PF.total_transactions >= 10
-    AND (RF.fraudulent_transactions::FLOAT / RF.total_transactions::FLOAT) > (PF.fraudulent_transactions::FLOAT / PF.total_transactions::FLOAT)
+  TransactionsInWindow
+GROUP BY
+  customer_id
 ORDER BY
-    percentage_change DESC
-LIMIT 10;
+  avg_amt_post_fraud DESC
+LIMIT 
+  50;
 
+-- "customer_id","avg_amt_pre_fraud","avg_amt_post_fraud"
+-- "C00003631",60.75,239.03
+-- "C00002919",113.79,202
+-- "C00005453",107.4425,190.81
+-- "C00004057","",182.84
+-- "C00004799",110.6,178.02
+-- "C00003751",76.17,174.91
+-- "C00001183",56.84,166.365
+-- "C00005580","",160.07
+-- "C00003639",104.24666666666667,154.835
+-- "C00001837",73.22999999999999,150.87
+-- "C00005157",69.065,150.315
+-- "C00001811",133.4075,149.94400000000002
+-- "C00002161",72.49833333333333,148.808
+-- "C00004168",73.77333333333333,148.54250000000002
+-- "C00005645",92.97,146.71444444444444
+-- "C00002533",90.895,143.67444444444445
+-- "C00004091",84.3075,142.24444444444444
+-- "C00001511",85.97333333333331,141.75
+-- "C00004948",61.529999999999994,141.45
+-- "C00001813",146.54333333333332,140.43666666666667
+-- "C00001426",69.56400000000001,139.95
+-- "C00001379",82.7975,139.54333333333332
+-- "C00001571",95.20599999999999,139.54250000000002
+-- "C00003415",61.35333333333333,139.21
+-- "C00001608",106.07300000000001,138.42142857142858
+-- "C00002183",85.36666666666667,138.10500000000002
+-- "C00002366",116.85333333333334,136.45857142857142
+-- "C00003690",98.85,134.62684210526314
+-- "C00005235",103.888,133.0325
+-- "C00003856",68.268,130.62333333333333
+-- "C00002476",120.38833333333334,130.52399999999997
+-- "C00002320","",130.1075
+-- "C00003504","",130.0533333333333
+-- "C00003212",62.88,130.03333333333333
+-- "C00001768",80.771,129.81666666666663
+-- "C00004787",100.23499999999999,129.50333333333333
+-- "C00002789",70.03888888888889,129.01111111111112
+-- "C00005932",91.21363636363635,128.96571428571428
+-- "C00004214",100.398,128.66466666666668
+-- "C00005770",115.00384615384615,128.1077777777778
+-- "C00001680",107.8266666666667,127.61999999999999
+-- "C00004310",116.37699999999998,127.57307692307693
+-- "C00005926",96.32,127.46933333333332
+-- "C00001057",84.31076923076922,127.1961111111111
+-- "C00004955",56.91,127.00999999999999
+-- "C00001343","",126.51
+-- "C00002410",72.54375,126.50357142857145
+-- "C00004762",123.05909090909091,126.24592592592593
+-- "C00004281",125.50333333333333,125.85285714285715
+-- "C00004436",92.41833333333334,125.47666666666666
+
+
+-- 16. Identify customers whose terminal usage coverage = #(used ∩ available) / nb_terminals is <20% yet have high volume—does that correlate with fraud?
+Join customer_terminal_map; distinct counts; ratio.
+
+SELECT CP.customer_id,
+  T.customer_id,
+  TP.terminal_id
+FROM
+  customer_profiles AS CP
+JOIN
+  transactions AS T
+ON 
+  CP.customer_id = T.customer_id
+JOIN
+  terminal_profiles AS TP
+ON 
+  T.terminal_id = TP.terminal_id ;
