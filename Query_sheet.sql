@@ -789,18 +789,47 @@ LIMIT
 
 
 -- 16. Identify customers whose terminal usage coverage = #(used ∩ available) / nb_terminals is <20% yet have high volume—does that correlate with fraud?
-Join customer_terminal_map; distinct counts; ratio.
 
-SELECT CP.customer_id,
-  T.customer_id,
-  TP.terminal_id
+
+WITH CustomerUsedTerminals AS (
+  -- Step 1: Count the number of UNIQUE terminals a customer has used.
+  -- We also count total transactions and fraud for later analysis.
+  SELECT
+    customer_id,
+    COUNT(DISTINCT terminal_id) AS used_terminals_count,
+    COUNT(transaction_id) AS total_transactions,
+    SUM(CASE WHEN fraud = 1 THEN 1 ELSE 0 END) AS fraud_transactions
+  FROM transactions
+  GROUP BY customer_id
+),
+CustomerAvailableTerminals AS (
+  -- Step 2: Count the total number of terminals available to each customer
+  -- from the customer-terminal mapping table.
+  SELECT
+    customer_id,
+    COUNT(DISTINCT terminal_id) AS available_terminals_count
+  FROM customer_terminal_map
+  GROUP BY customer_id
+)
+
+-- Step 3: Join the two CTEs and calculate the usage ratio.
+-- Then, filter for low coverage and high transaction volume.
+SELECT
+  cu.customer_id,
+  CAST(cu.used_terminals_count AS FLOAT) / ca.available_terminals_count AS terminal_coverage_ratio,
+  cu.total_transactions,
+  cu.fraud_transactions
 FROM
-  customer_profiles AS CP
+  CustomerUsedTerminals AS cu
 JOIN
-  transactions AS T
-ON 
-  CP.customer_id = T.customer_id
-JOIN
-  terminal_profiles AS TP
-ON 
-  T.terminal_id = TP.terminal_id ;
+  CustomerAvailableTerminals AS ca ON cu.customer_id = ca.customer_id
+WHERE
+  -- Filter for low terminal usage coverage (<20%)
+  CAST(cu.used_terminals_count AS FLOAT) / ca.available_terminals_count < 0.20
+  AND
+  -- Filter for high transaction volume (adjust the number as needed)
+  cu.total_transactions > 50
+ORDER BY
+  cu.fraud_transactions DESC,
+  terminal_coverage_ratio ASC;
+
