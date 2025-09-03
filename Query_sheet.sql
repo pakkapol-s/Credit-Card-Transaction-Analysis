@@ -833,3 +833,4 @@ ORDER BY
   cu.fraud_transactions DESC,
   terminal_coverage_ratio ASC;
 
+-- No data
