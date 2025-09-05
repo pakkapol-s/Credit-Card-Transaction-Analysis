@@ -54,20 +54,20 @@ Develop a machine learning model that calculates a real-time risk score for each
 
 # Challenges Faced and Solutions
 
-1. Data Compatibility and Schema Design
+## 1. Data Compatibility and Schema Design
 
 - Challenge: The raw data, particularly the customer_terminal_map, was provided in a format that did not align with a standard relational database schema. Using it as-is would have led to redundant data and inefficient querying.
 
 - Solution: I addressed this by normalizing the data. I first designed a relational schema and then split the raw data into separate tables (customer_profiles, terminal_profiles, etc.) to eliminate redundancy and establish clear relationships. This foundational work was crucial for building all subsequent advanced queries.
 
 
-2. Timestamp Formatting and Manipulation
+## 2. Timestamp Formatting and Manipulation
 
 - Challenge: The timestamp data (post_ts) was not in a format that was immediately compatible with SQL's built-in date and time functions. This prevented accurate time-based calculations, such as identifying the ±14 day window around fraudulent events.
 
 - Solution: I explicitly converted the string timestamps into a recognized TIMESTAMP data type. This ensured that all time-based operations, including date arithmetic and ordering, were performed correctly, allowing for precise event-driven analysis.
 
-3. Complexity of Advanced SQL
+## 3. Complexity of Advanced SQL
 
 - Challenge: Some of the required analyses, such as the pre/post behavior shift and terminal usage coverage, demanded the use of complex SQL techniques like Common Table Expressions (CTEs), window functions, and geospatial calculations. Implementing these correctly from scratch was a significant learning curve.
 - Solution: I systematically broke down complex problems into smaller, more manageable steps, often using CTEs to stage intermediate results. To overcome the technical challenges of new syntax, I relied on online resources, including official documentation, W3Schools for syntax references, LinkedIn Learning online courses, and YouTube tutorials for conceptual understanding. This approach not only solved the immediate problems but also strengthened my overall SQL knowledge.
@@ -78,3 +78,15 @@ The dataset contained four tables, including information about customer_profiles
 
 ![ER Diagram of the database](ER_diagram.png)
 
+# Technologies Used
+
+- Programming Language: Python
+- Data Manipulation & Analysis: Pandas, NumPy, psycopg2
+- Data Visualisation: Matplotlib, Seaborn
+- Database and Query: PostgreSQL, SQL
+- Jupyter / Kaggle Notebook
+
+
+# Author
+
+Mr. Pakkapol Satthapiti | MSC of Data Science and AI | The University of Liverpool | Feel free to connect!
