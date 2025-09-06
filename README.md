@@ -52,6 +52,12 @@ Develop a machine learning model that calculates a real-time risk score for each
 - Pre/Post-Fraud Behavior: Create a system to detect a significant shift in a customer’s average transaction amount after an initial fraudulent event. This serves as a strong signal for a potential account takeover or compromised card.
 - Geographic Analysis: While the initial analysis did not show a strong correlation between fraud and distance from a customer’s home, it is still recommended to integrate a customer’s home location and terminal location data for more sophisticated geospatial analysis in future models. This could uncover more nuanced location-based patterns.
 
+# Visualisation
+
+The visualizations by day of the month, hour of the day, month, and day of the week reveal key behavioral patterns. For example, the Avg Fraud Rate by Hour plot clearly shows an increase in fraud during evening hours, while the Total Transactions by Month plot illustrates general transaction trends over theses months. These time-based insights are crucial for building a more effective fraud detection system.
+
+![ER Diagram of the database](ER_diagram.png)
+
 # Challenges Faced and Solutions
 
 ## 1. Data Compatibility and Schema Design
