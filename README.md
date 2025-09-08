@@ -84,6 +84,10 @@ The dataset contained four tables, including information about customer_profiles
 
 ![ER Diagram of the database](ER_diagram.png)
 
+# Presentation Sample
+
+Presentation slides are in the process of making, and will soon be publised when completed.
+
 # Technologies Used
 
 - Programming Language: Python
