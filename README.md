@@ -86,7 +86,7 @@ The dataset contained four tables, including information about customer_profiles
 
 # Presentation Sample
 
-This project culminated in a presentation of our key findings and strategic recommendations for fraud detection. The complete deck is available [here](https://docs.google.com/presentation/d/1vIAqj-Rcdjzr7cj_0y1S3okW9_etnzWd0K7Dy-ZcOA8/edit?usp=sharing), and a selection of key slides is included below to highlight our core insights
+This project culminated in a presentation of our key findings and strategic recommendations for fraud detection. The complete deck is available [here](https://docs.google.com/presentation/d/1vIAqj-Rcdjzr7cj_0y1S3okW9_etnzWd0K7Dy-ZcOA8/edit?usp=sharing), and a selection of key slides is included below to highlight our core insights.
 
 
 ![Sample_insights](images/insight_sample.png)
