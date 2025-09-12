@@ -86,8 +86,13 @@ The dataset contained four tables, including information about customer_profiles
 
 # Presentation Sample
 
-Presentation slides are in the process of making, and will soon be publised when completed.
+This project culminated in a presentation of our key findings and strategic recommendations for fraud detection. The complete deck is available as the URL below, and a selection of key slides is included below to highlight our core insights
 
+Full Presentaion Slides: https://docs.google.com/presentation/d/1vIAqj-Rcdjzr7cj_0y1S3okW9_etnzWd0K7Dy-ZcOA8/edit?usp=sharing
+
+![Sample_insights](images/insight_sample.png)
+![Key_recommendations](images/Key_recommendations.png)
+![Technial_process](images/Technical_process.png)
 # Technologies Used
 
 - Programming Language: Python
